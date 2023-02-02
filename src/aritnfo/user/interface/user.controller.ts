@@ -1,6 +1,7 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { UserService } from '@/aritnfo/user/application/user.service';
 import { UserFields } from '@/aritnfo/user/application/dto/create-user-fields.class';
+import { CreateUserRequest } from '@/aritnfo/user/interface/dto/create-user.request';
 
 @Controller('user')
 export class UserController {
@@ -14,13 +15,7 @@ export class UserController {
   }
 
   @Post('/')
-  createUser() {
-    const fields = new UserFields();
-    fields.name = '임성준';
-    fields.nick_name = 'choral';
-    fields.email = 'chorales@naver.com';
-    fields.password = 'a740857!';
-
-    return this.userService.createUser(fields);
+  createUser(@Body() request: CreateUserRequest) {
+    return this.userService.createUser(request.getUserFields());
   }
 }

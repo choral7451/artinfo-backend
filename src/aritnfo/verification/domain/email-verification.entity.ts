@@ -1,9 +1,9 @@
-import { Index, ModelOptions, Prop } from '@typegoose/typegoose';
+import { ModelOptions, Prop } from '@typegoose/typegoose';
 import { ObjectId, ObjectIdToString } from '@/common/types/mongo';
 
 @ModelOptions({
   schemaOptions: {
-    collection: 'user',
+    collection: 'email_verification',
     versionKey: '_v',
     timestamps: {
       createdAt: true,
@@ -11,8 +11,7 @@ import { ObjectId, ObjectIdToString } from '@/common/types/mongo';
     },
   },
 })
-@Index({ email: 1 }, { unique: true })
-export class User {
+export class EmailVerification {
   @Prop({ type: ObjectId, alias: 'id', default: () => ObjectId(), get: ObjectIdToString })
   _id!: string;
   id!: string;
@@ -21,16 +20,19 @@ export class User {
   _v!: string;
 
   @Prop({ type: String, required: true })
-  name!: string;
-
-  @Prop({ type: String, required: true })
-  nick_name!: string;
-
-  @Prop({ type: String, required: true })
   email!: string;
 
-  @Prop({ type: String, required: true })
-  password!: string;
+  @Prop({ type: String, required: false })
+  verificationCode?: string;
+
+  @Prop({ type: Boolean, required: true, default: false })
+  verified!: boolean;
+
+  @Prop({ type: String, required: false })
+  verifiedToken?: string;
+
+  @Prop({ type: Boolean, required: true, default: false })
+  isDisabled!: boolean;
 
   @Prop({ type: Date, default: Date.now })
   updatedAt!: Date;
