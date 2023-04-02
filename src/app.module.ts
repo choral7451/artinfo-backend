@@ -1,16 +1,9 @@
 import { Module } from '@nestjs/common';
-import { UserModule } from './api/user/user.module';
-import { TypegooseModule } from 'nestjs-typegoose';
-import { ConfigModule } from '@nestjs/config';
+import { ApiModule } from '@/api/api.module';
+import { DatabaseModule } from '@/database/database.module';
+import { ConfigurationModule } from '@/config/config.module';
 
 @Module({
-  imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-      envFilePath: './env/.env',
-    }),
-    TypegooseModule.forRoot(process.env.MONGODB),
-    UserModule,
-  ],
+  imports: [ConfigurationModule, DatabaseModule, ApiModule],
 })
 export class AppModule {}
