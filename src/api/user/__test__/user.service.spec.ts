@@ -36,6 +36,6 @@ describe('UserService', () => {
     expect(user.name).toBe(createUserFields.name);
     expect(user.nickname).toBe(createUserFields.nickname);
     expect(user.email).toBe(createUserFields.email);
-    expect(user.password).toBe('aaa');
+    expect(user.password).toBe('ccc');
   });
 });
