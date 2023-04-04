@@ -24,6 +24,6 @@ export const DevDbConfigModule = TypeOrmModule.forRoot({
 });
 
 @Module({
-  imports: [TestDbConfigModule, DevDbConfigModule],
+  imports: [DevDbConfigModule, TestDbConfigModule],
 })
 export class DatabaseModule {}

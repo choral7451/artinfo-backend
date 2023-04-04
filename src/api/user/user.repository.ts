@@ -10,7 +10,11 @@ export class UserRepository {
     private readonly userRepository: Repository<User>, //
   ) {}
 
-  async create(fields: User) {
-    return await this.userRepository.save(fields);
+  async create(fields: User): Promise<User> {
+    return this.userRepository.save(fields);
+  }
+
+  async findOneByEmail(email: string): Promise<User | undefined> {
+    return this.userRepository.findOne({ where: { email: email } });
   }
 }

@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { User } from '@/api/user/entities/user.entity';
 import * as bcrypt from 'bcrypt';
 import { UserRepository } from '@/api/user/user.repository';
-import { UserResponse } from '@/api/user/dto/response/user.response';
 import { ICreateUserFields } from '@/api/user/dto/fields/create-user.fields';
 
 @Injectable()
@@ -15,6 +14,10 @@ export class UserService {
     fields.password = await this.getHashedPassword(fields.password);
 
     return this.userRepository.create(User.from(fields));
+  }
+
+  async getUserByEmail(email: string): Promise<User | undefined> {
+    return this.userRepository.findOneByEmail(email);
   }
 
   private getHashedPassword = async (password: string): Promise<string> => {
