@@ -4,20 +4,26 @@ import { UserRepository } from '@/api/user/user.repository';
 import { ICreateUserFields } from '@/api/user/dto/fields/create-user.fields';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from '@/api/user/entities/user.entity';
-import { DatabaseModule } from '@/database/database.module';
+import { TestDbConfigModule } from '@/database/database.module';
 
 describe('UserService', () => {
+  let app: TestingModule;
   let userService: UserService;
   let userRepository: UserRepository;
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      imports: [DatabaseModule, TypeOrmModule.forFeature([User])],
+  beforeAll(async () => {
+    app = await Test.createTestingModule({
+      imports: [TestDbConfigModule, TypeOrmModule.forFeature([User])],
       providers: [UserService, UserRepository],
     }).compile();
 
-    userService = module.get<UserService>(UserService);
-    userRepository = module.get<UserRepository>(UserRepository);
+    userService = app.get<UserService>(UserService);
+    userRepository = app.get<UserRepository>(UserRepository);
+  });
+
+  afterAll(async () => {
+    await app.get('UserRepository').query(`DELETE FROM user`);
+    await app.close();
   });
 
   it('createUser', async () => {
