@@ -1,23 +1,24 @@
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { ICreateUserFields } from '@/api/user/dto/fields/create-user.fields';
 
 @Entity()
 export class User {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn('uuid', { name: 'id' })
   private _id!: number;
 
-  @Column({ nullable: false, default: '0' })
+  @Column({ name: '_v', nullable: false, default: '0' })
   private _v!: string;
 
-  @Column({ nullable: false })
+  @Column({ name: 'name', nullable: false })
   private _name!: string;
 
-  @Column({ nullable: false })
+  @Column({ name: 'nickname', nullable: false })
   private _nickname!: string;
 
-  @Column({ nullable: true })
-  private _password?: string;
+  @Column({ name: 'password', nullable: false })
+  private _password!: string;
 
-  @Column({ nullable: false })
+  @Column({ name: 'email', nullable: false })
   private _email!: string;
 
   @UpdateDateColumn({ name: 'updated_at' })
@@ -26,12 +27,12 @@ export class User {
   @CreateDateColumn({ name: 'created_At' })
   private _createdAt!: Date;
 
-  static from({ name, nickname, email, password }: { name: string; nickname: string; email: string; password?: string }): User {
+  static from(fields: ICreateUserFields): User {
     const user = new User();
-    user._name = name;
-    user._nickname = nickname;
-    user._email = email;
-    user._password = password;
+    user._name = fields.name;
+    user._nickname = fields.nickname;
+    user._email = fields.email;
+    user._password = fields.password;
     return user;
   }
 
@@ -51,7 +52,7 @@ export class User {
     return this._nickname;
   }
 
-  get password(): string | undefined {
+  get password(): string {
     return this._password;
   }
 

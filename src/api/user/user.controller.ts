@@ -11,6 +11,7 @@ export class UserController {
 
   @ArtinfoPost('/', '회원가입')
   async createUser(@Body() request: CreateUserRequest): Promise<UserResponse> {
-    return this.userService.createUser(request);
+    const user = await this.userService.createUser(request.getCreateUserFields());
+    return UserResponse.fromUser(user);
   }
 }
