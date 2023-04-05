@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { UserService } from '@/api/user/user.service';
 import * as bcrypt from 'bcrypt';
-import * as jwt from 'jsonwebtoken';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '@/api/user/entities/user.entity';
 
@@ -25,11 +24,11 @@ export class AuthService {
   private getAccessToken(user: User) {
     return this.jwtService.sign(
       { name: user.name, nickname: user.nickname, email: user.email }, //
-      { expiresIn: '20m' },
+      { privateKey: process.env.JWT_TOKEN_KEY, expiresIn: '20m' },
     );
   }
 
   private getRefreshToken() {
-    return this.jwtService.sign({ expiresIn: '1w' });
+    return this.jwtService.sign({}, { privateKey: process.env.JWT_TOKEN_KEY, expiresIn: '1w' });
   }
 }

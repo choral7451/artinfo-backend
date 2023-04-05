@@ -1,6 +1,5 @@
 import { ArtinfoController, ArtinfoPost } from '@/global/decorator/rest-api';
 import { Body } from '@nestjs/common';
-import { CreateUserRequest } from '@/api/user/dto/request/create-user.request';
 import { LoginResponse } from '@/api/auth/dto/response/login.response';
 import { AuthService } from '@/api/auth/auth.service';
 import { LoginRequest } from '@/api/auth/dto/request/login.request';
