@@ -1,9 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { UserService } from '@/api/user/user.service';
 import { UserRepository } from '@/api/user/user.repository';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from '@/api/user/entities/user.entity';
-import { TestDbConfigModule } from '@/database/database.module';
 
 describe('UserRepository', () => {
   let app: TestingModule;
@@ -11,16 +8,17 @@ describe('UserRepository', () => {
 
   beforeAll(async () => {
     app = await Test.createTestingModule({
-      imports: [TestDbConfigModule, TypeOrmModule.forFeature([User])],
-      providers: [UserService, UserRepository],
+      providers: [
+        {
+          provide: UserRepository,
+          useValue: {
+            create: jest.fn((user: User) => user),
+          },
+        },
+      ],
     }).compile();
 
     userRepository = app.get<UserRepository>(UserRepository);
-  });
-
-  afterAll(async () => {
-    await app.get('UserRepository').query(`DELETE FROM user`);
-    await app.close();
   });
 
   it('create', async () => {

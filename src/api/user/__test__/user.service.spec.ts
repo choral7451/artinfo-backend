@@ -2,9 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UserService } from '@/api/user/user.service';
 import { UserRepository } from '@/api/user/user.repository';
 import { ICreateUserFields } from '@/api/user/dto/fields/create-user.fields';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from '@/api/user/entities/user.entity';
-import { TestDbConfigModule } from '@/database/database.module';
 
 describe('UserService', () => {
   let app: TestingModule;
@@ -13,8 +11,15 @@ describe('UserService', () => {
 
   beforeAll(async () => {
     app = await Test.createTestingModule({
-      imports: [TestDbConfigModule, TypeOrmModule.forFeature([User])],
-      providers: [UserService, UserRepository],
+      providers: [
+        {
+          provide: UserRepository,
+          useValue: {
+            create: jest.fn((user: User) => user),
+          },
+        },
+        UserService,
+      ],
     }).compile();
 
     userService = app.get<UserService>(UserService);
