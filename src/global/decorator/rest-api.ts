@@ -1,4 +1,4 @@
-import { applyDecorators, Controller, Post } from '@nestjs/common';
+import { applyDecorators, Controller, Get, Post } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 export function ArtinfoController(prefix: string, apiTags: string): ClassDecorator {
@@ -7,4 +7,8 @@ export function ArtinfoController(prefix: string, apiTags: string): ClassDecorat
 
 export function ArtinfoPost(path: string, summary: string): MethodDecorator {
   return applyDecorators(Post(path), ApiOperation({ summary: summary }));
+}
+
+export function ArtinfoGet(path: string, summary: string): MethodDecorator {
+  return applyDecorators(Get(path), ApiOperation({ summary: summary }));
 }

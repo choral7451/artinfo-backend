@@ -1,7 +1,6 @@
-import { Body, Controller, Get } from '@nestjs/common';
+import { Body } from '@nestjs/common';
 import { UserService } from '@/api/user/user.service';
 import { ArtinfoController, ArtinfoPost } from '@/global/decorator/rest-api';
-import { User } from '@/api/user/entities/user.entity';
 import { CreateUserRequest } from '@/api/user/dto/request/create-user.request';
 import { UserResponse } from '@/api/user/dto/response/user.response';
 

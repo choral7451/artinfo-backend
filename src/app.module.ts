@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ApiModule } from '@/api/api.module';
-import { DatabaseModule } from '@/database/database.module';
 import { ConfigurationModule } from '@/config/config.module';
+import { PrismaModule } from '../prisma/prisma.module';
 
 @Module({
-  imports: [ConfigurationModule, DatabaseModule, ApiModule],
+  imports: [ConfigurationModule, ApiModule, PrismaModule],
 })
 export class AppModule {}

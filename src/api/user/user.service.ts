@@ -1,23 +1,32 @@
 import { Injectable } from '@nestjs/common';
-import { User } from '@/api/user/entities/user.entity';
 import * as bcrypt from 'bcrypt';
-import { UserRepository } from '@/api/user/user.repository';
 import { ICreateUserFields } from '@/api/user/dto/fields/create-user.fields';
+import { PrismaService } from '../../../prisma/prisma.service';
+import { User } from '@prisma/client';
 
 @Injectable()
 export class UserService {
-  constructor(
-    private readonly userRepository: UserRepository, //
-  ) {}
+  constructor(private prismaService: PrismaService) {}
 
   async createUser(fields: ICreateUserFields): Promise<User> {
     fields.password = await this.getHashedPassword(fields.password);
-
-    return this.userRepository.create(User.from(fields));
+    return this.prismaService.user.create({ data: fields });
   }
 
-  async getUserByEmail(email: string): Promise<User | undefined> {
-    return this.userRepository.findOneByEmail(email);
+  async getUserById(id: number): Promise<User | null> {
+    return this.prismaService.user.findUnique({
+      where: {
+        id: id,
+      },
+    });
+  }
+
+  async getUserByEmail(email: string): Promise<User | null> {
+    return this.prismaService.user.findUnique({
+      where: {
+        email: email,
+      },
+    });
   }
 
   private getHashedPassword = async (password: string): Promise<string> => {

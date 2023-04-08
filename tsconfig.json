@@ -12,14 +12,15 @@
     "baseUrl": "./",
     "incremental": true,
     "skipLibCheck": true,
-    "strictNullChecks": false,
-    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "noImplicitAny": false,
     "strictBindCallApply": true,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
       "@/*": [
-        "./src/*"
+        "./src/*",
+        "./prisma/*"
       ],
     }
   }

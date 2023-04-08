@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { User } from '@/api/user/entities/user.entity';
+import { User } from '@prisma/client';
 
 export class UserResponse {
   @ApiProperty({ required: true, description: '이름', example: '임성준' })
