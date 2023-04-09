@@ -13,14 +13,14 @@ model User {
   email     String   @unique
   nickname  String   @unique
   password  String?
-  issues    IssueBoard[]
+  issues    Issue[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@map("users")
 }
 
-model IssueBoard {
+model Issue {
   id        Int      @id @default(autoincrement())
   title     String
   contents  String
@@ -30,5 +30,5 @@ model IssueBoard {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("issue_board")
+  @@map("issues")
 }

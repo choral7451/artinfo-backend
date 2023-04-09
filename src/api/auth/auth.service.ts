@@ -13,7 +13,7 @@ export class AuthService {
 
   async login({ email, password }: { email: string; password: string }): Promise<{ accessToken: string; refreshToken: string }> {
     const user = await this.userService.getUserByEmail(email);
-    if (!user) throw new Error('THE_USER_DOSE_NOT_EXIST');
+    if (!user) throw new Error('THE_USER_DOES_NOT_EXIST');
 
     if (user.password) {
       const passwordMatching = await bcrypt.compare(password, user.password);
