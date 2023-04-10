@@ -1,9 +1,9 @@
-import { ArtinfoController, ArtinfoGet, ArtinfoPost } from '@/global/decorator/rest-api';
 import { Body, Param } from '@nestjs/common';
-import { IssueService } from '@/api/issue/issue.service';
-import { CreateIssueRequest } from '@/api/issue/dto/request/create-issue.request';
-import { IssueDetailResponse } from '@/api/issue/dto/response/issueDetailResponse';
-import { IssuesResponse } from '@/api/issue/dto/response/issues.response';
+import { ArtinfoController, ArtinfoGet, ArtinfoPost } from '../../global/decorator/rest-api';
+import { IssueService } from './issue.service';
+import { CreateIssueRequest } from './dto/request/create-issue.request';
+import { IssueDetailResponse } from './dto/response/issueDetailResponse';
+import { IssuesResponse } from './dto/response/issues.response';
 
 @ArtinfoController('issue', 'Issue')
 export class IssueController {

@@ -1,8 +1,8 @@
-import { ArtinfoController, ArtinfoPost } from '@/global/decorator/rest-api';
 import { Body } from '@nestjs/common';
-import { LoginResponse } from '@/api/auth/dto/response/login.response';
-import { AuthService } from '@/api/auth/auth.service';
-import { LoginRequest } from '@/api/auth/dto/request/login.request';
+import { ArtinfoController, ArtinfoPost } from '../../global/decorator/rest-api';
+import { AuthService } from './auth.service';
+import { LoginRequest } from './dto/request/login.request';
+import { LoginResponse } from './dto/response/login.response';
 
 @ArtinfoController('auth', 'Auth')
 export class AuthController {

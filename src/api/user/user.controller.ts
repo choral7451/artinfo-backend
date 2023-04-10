@@ -1,10 +1,10 @@
-import { Body, Req, UseGuards } from '@nestjs/common';
-import { UserService } from '@/api/user/user.service';
-import { ArtinfoController, ArtinfoGet, ArtinfoPost } from '@/global/decorator/rest-api';
-import { CreateUserRequest } from '@/api/user/dto/request/create-user.request';
-import { UserResponse } from '@/api/user/dto/response/user.response';
-import { JwtAuthGuard } from '@/api/auth/security/jwt-auth.guard';
-import { Signature } from '@/global/decorator/signature';
+import { Body, UseGuards } from '@nestjs/common';
+import { ArtinfoController, ArtinfoGet, ArtinfoPost } from '../../global/decorator/rest-api';
+import { UserService } from './user.service';
+import { CreateUserRequest } from './dto/request/create-user.request';
+import { UserResponse } from './dto/response/user.response';
+import { JwtAuthGuard } from '../auth/security/jwt-auth.guard';
+import { Signature } from '../../global/decorator/signature';
 
 @ArtinfoController('user', 'User')
 export class UserController {

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ICreateIssueFields } from '@/api/issue/dto/fields/create-issue.fields';
+import { ICreateIssueFields } from '../fields/create-issue.fields';
 
 export class CreateIssueRequest {
   @ApiProperty({ required: true, description: '사용자 아이디', example: 1 })

@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Issue, User } from '@prisma/client';
-import { IssueResponse } from '@/api/issue/dto/response/issue.response';
+import { IssueResponse } from './issue.response';
 
 export class IssuesResponse {
   @ApiProperty({ required: true, description: '이슈 게시글 목록' })
