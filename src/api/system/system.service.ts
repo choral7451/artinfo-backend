@@ -1,12 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { S3 } from 'aws-sdk';
-import { MulterFile } from './dto/fields/multer-file.fields';
+import { PrismaService } from '../../../prisma/prisma.service';
+import { FileUploadRequest } from './dto/request/file-upload.request';
+import { ICreateFileFields } from './dto/fields/create-file.fields';
 
 @Injectable()
 export class SystemService {
   private s3: S3;
 
-  constructor() {
+  constructor(
+    private readonly prismaService: PrismaService, //
+  ) {
     this.s3 = new S3({
       credentials: {
         accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
@@ -15,14 +19,27 @@ export class SystemService {
     });
   }
 
-  async uploadFile(file: MulterFile, filename: string): Promise<S3.ManagedUpload.SendData> {
+  async uploadFile(request: FileUploadRequest): Promise<string> {
+    const key = `${request.targetId}/${request.target}/${request.fileName}_${Date.now()}`;
     const params = {
       Bucket: process.env.AWS_S3_BUCKET_NAME!,
-      Key: filename,
-      Body: file.buffer,
-      ContentType: file.mimetype,
+      Key: key,
+      Body: request.file.buffer,
+      ContentType: request.file.mimetype,
+    };
+    const result = await this.s3.upload(params).promise();
+
+    const fields: ICreateFileFields = {
+      fileName: request.fileName,
+      url: result.Location,
+      target: request.target,
+      targetId: request.targetId,
+      mimeType: request.file.mimetype,
+      size: request.file.size,
     };
 
-    return await this.s3.upload(params).promise();
+    await this.prismaService.file.create({ data: fields });
+
+    return result.Location;
   }
 }

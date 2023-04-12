@@ -1,13 +1,8 @@
 export interface MulterFile {
-  fieldname: string;
-  originalname: string;
+  fieldName: string;
+  originalName: string;
   encoding: string;
   mimetype: string;
   size: number;
   buffer: Buffer;
-  destination: string;
-  filename: string;
-  path: string;
-  stream: NodeJS.ReadableStream;
-  [key: string]: any;
 }

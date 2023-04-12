@@ -32,3 +32,17 @@ model Issue {
 
   @@map("issues")
 }
+
+model File {
+  id        Int      @id @default(autoincrement())
+  fileName   String   @map("file_name")
+  url       String
+  target    String
+  targetId  String   @map("target_id")
+  mimeType  String   @map("mime_type")
+  size      Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("files")
+}

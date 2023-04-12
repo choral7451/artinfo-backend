@@ -15,10 +15,17 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
-  it('/ (GET)', () => {
-    return request(app.getHttpServer())
-      .get('/')
-      .expect(200)
-      .expect('Hello World!');
+  it(`/GET me`, async () => {
+    const user = { id: 1, email: 'test@example.com', name: 'Test User' };
+
+    const token = 'valid_token'; // set a valid JWT token
+
+    const response = await request(app.getHttpServer()).get('/issue/1').expect(200);
+
+    expect(response.body).toEqual({
+      id: user.id,
+      email: user.email,
+      name: user.name,
+    });
   });
 });
