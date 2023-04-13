@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { S3 } from 'aws-sdk';
-import { PrismaService } from '../../../prisma/prisma.service';
 import { FileUploadRequest } from './dto/request/file-upload.request';
 import { ICreateFileFields } from './dto/fields/create-file.fields';
+import { PrismaService } from '@/prisma.service';
 
 @Injectable()
 export class SystemService {
@@ -31,7 +31,7 @@ export class SystemService {
 
     const fields: ICreateFileFields = {
       fileName: request.fileName,
-      url: result.Location,
+      url: decodeURIComponent(result.Location),
       target: request.target,
       targetId: request.targetId,
       mimeType: request.file.mimetype,

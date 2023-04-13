@@ -1,9 +1,11 @@
-import { Body, Param } from '@nestjs/common';
+import { Body, Param, UseGuards } from '@nestjs/common';
 import { ArtinfoController, ArtinfoGet, ArtinfoPost } from '../../global/decorator/rest-api';
 import { IssueService } from './issue.service';
 import { CreateIssueRequest } from './dto/request/create-issue.request';
 import { IssueDetailResponse } from './dto/response/issueDetailResponse';
 import { IssuesResponse } from './dto/response/issues.response';
+import { JwtAuthGuard } from '@/api/auth/security/jwt-auth.guard';
+import { Signature } from '@/global/decorator/signature';
 
 @ArtinfoController('issue', 'Issue')
 export class IssueController {
@@ -11,9 +13,10 @@ export class IssueController {
     private readonly issueService: IssueService, //
   ) {}
 
-  @ArtinfoPost({ path: '/', summary: '이슈 게시글 작성' })
-  async createIssue(@Body() request: CreateIssueRequest) {
-    return this.issueService.createIssue(request.getCreateIssueFields());
+  @UseGuards(JwtAuthGuard)
+  @ArtinfoPost({ path: '/', summary: '이슈 게시글 작성', auth: true })
+  async createIssue(@Body() request: CreateIssueRequest, @Signature() signature) {
+    return this.issueService.createIssue(request.setUserId(signature.id).getCreateIssueFields());
   }
 
   @ArtinfoGet({ path: '/:id([0-9])', summary: '이슈 게시글 조회' })

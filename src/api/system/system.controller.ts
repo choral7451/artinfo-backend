@@ -6,6 +6,7 @@ import { SystemService } from './system.service';
 import { FileUploadRequest } from './dto/request/file-upload.request';
 import { MulterFile } from './dto/fields/multer-file.fields';
 import { JwtAuthGuard } from '../auth/security/jwt-auth.guard';
+import { Signature } from '@/global/decorator/signature';
 
 @ArtinfoController('system', 'System')
 export class SystemController {
@@ -36,18 +37,12 @@ export class SystemController {
           nullable: false,
           example: 'USER_ICON',
         },
-        targetId: {
-          type: 'string',
-          description: '타겟 아이디',
-          nullable: false,
-          example: '123',
-        },
       },
     },
   })
   @ArtinfoPost({ path: '/upload', summary: '파일 업로드', auth: true })
-  async uploadFile(@Body() request: FileUploadRequest, @UploadedFile() file: MulterFile): Promise<any> {
-    const url = await this.systemService.uploadFile(request.setFile(file));
+  async uploadFile(@Body() request: FileUploadRequest, @UploadedFile() file: MulterFile, @Signature() signature): Promise<any> {
+    const url = await this.systemService.uploadFile(request.setTargetId(signature.id.toString()).setFile(file));
     return { url: url };
   }
 }

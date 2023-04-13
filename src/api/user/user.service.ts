@@ -1,12 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
-import { PrismaService } from '../../../prisma/prisma.service';
 import { User } from '@prisma/client';
 import { ICreateUserFields } from './dto/fields/create-user.fields';
+import { IUpdateUserFields } from '@/api/user/dto/fields/update-user.fields';
+import { PrismaService } from '@/prisma.service';
 
 @Injectable()
 export class UserService {
   constructor(private prismaService: PrismaService) {}
+
+  async updateUser(id: number, fields: IUpdateUserFields): Promise<User> {
+    if (fields.password) fields.password = await this.getHashedPassword(fields.password);
+    return this.prismaService.user.update({ where: { id: id }, data: fields });
+  }
 
   async createUser(fields: ICreateUserFields): Promise<User> {
     fields.password = await this.getHashedPassword(fields.password);
