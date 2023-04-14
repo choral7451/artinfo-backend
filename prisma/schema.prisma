@@ -22,7 +22,7 @@ model User {
 }
 
 model Issue {
-  id           Int      @id @default(autoincrement())
+  id           Int      @id @default( autoincrement())
   title        String
   type         String
   contents     String
@@ -43,6 +43,7 @@ model File {
   targetId  String   @map("target_id")
   mimeType  String   @map("mime_type")
   size      Int
+  status    String   @default("Unused")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
