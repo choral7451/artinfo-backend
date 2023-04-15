@@ -25,8 +25,8 @@ model Issue {
   id           Int      @id @default( autoincrement())
   title        String
   type         String
-  contents     String
-  countOfViews Int   @map("count_of_views") @default(0)
+  contents     String   @db.Text
+  countOfViews Int      @map("count_of_views") @default(0)
   user         User     @relation(fields: [userId], references: [id])
   userId       Int
   createdAt    DateTime @default(now())
