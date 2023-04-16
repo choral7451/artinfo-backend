@@ -1,20 +1,16 @@
-// import { Injectable } from '@nestjs/common';
-// import { InjectRepository } from '@nestjs/typeorm';
-// import { User } from '@/api/user/entities/user.entity';
-// import { FindOneOptions, FindOptionsWhere, Repository } from 'typeorm';
-//
-// @Injectable()
-// export class UserRepository {
-//   constructor(
-//     @InjectRepository(User)
-//     private readonly userRepository: Repository<User>, //
-//   ) {}
-//
-//   async create(fields: User): Promise<User> {
-//     return this.userRepository.save(fields);
-//   }
-//
-//   async findOneByEmail(email: string): Promise<User | undefined> {
-//     return this.userRepository.findOne({ _email: email });
-//   }
-// }
+import { Repository } from 'typeorm';
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { User } from '@/api/user/user.entity';
+
+@Injectable()
+export class UserRepository {
+  constructor(
+    @InjectRepository(User)
+    private userRepository: Repository<User>,
+  ) {}
+  async createUser(user: User): Promise<User> {
+    console.log(user);
+    return this.userRepository.save(user);
+  }
+}

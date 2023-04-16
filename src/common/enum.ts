@@ -9,3 +9,8 @@ export enum IssueType {
   ISSUE = 'ISSUE',
   POSTSCRIPT = 'POSTSCRIPT',
 }
+
+export enum FileStatus {
+  UNUSED = 'UNUSED',
+  USED = 'USED',
+}

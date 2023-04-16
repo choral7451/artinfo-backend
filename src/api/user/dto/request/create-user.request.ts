@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ICreateUserFields } from '../fields/create-user.fields';
+import { User } from '@/api/user/user.entity';
 
 export class CreateUserRequest {
   @ApiProperty({ required: true, description: '이름', example: '임성준' })
@@ -14,12 +14,7 @@ export class CreateUserRequest {
   @ApiProperty({ required: false, description: '비밀번호', example: 'a123456!' })
   password!: string;
 
-  getCreateUserFields(): ICreateUserFields {
-    return {
-      name: this.name,
-      nickname: this.nickname,
-      email: this.email,
-      password: this.password,
-    };
+  toEntity(): User {
+    return User.create(this.email, this.name, this.nickname, this.password);
   }
 }

@@ -1,5 +1,4 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Issue, User } from '@prisma/client';
 
 export class IssueDetailResponse {
   @ApiProperty({ required: true, description: '게시글 아이디', example: 1 })
@@ -19,16 +18,4 @@ export class IssueDetailResponse {
 
   @ApiProperty({ required: true, description: '게시글 작성 일시', example: new Date() })
   createdAt!: Date;
-
-  static fromIssue(issue: Issue & { user: User }): IssueDetailResponse {
-    const response = new IssueDetailResponse();
-    response.id = issue.id;
-    response.authorUserNickname = issue.user.name;
-    response.title = issue.title;
-    response.contents = issue.contents;
-    response.countOfViews = issue.countOfViews;
-    response.createdAt = issue.createdAt;
-
-    return response;
-  }
 }
