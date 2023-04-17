@@ -10,7 +10,6 @@ export class UserRepository {
     private userRepository: Repository<User>,
   ) {}
   async createUser(user: User): Promise<User> {
-    console.log(user);
     return this.userRepository.save(user);
   }
 }

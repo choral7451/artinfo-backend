@@ -1,8 +1,8 @@
-import { Body, UseGuards } from '@nestjs/common';
+import { Body, Inject, UseGuards } from '@nestjs/common';
 import { ArtinfoController, ArtinfoGet, ArtinfoPatch, ArtinfoPost } from '../../global/decorator/rest-api';
 import { UserService } from './user.service';
 import { CreateUserRequest } from './dto/request/create-user.request';
-import { ArtinfoResponse } from '@/global/serializer/response/global-response';
+import { ArtinfoResponse } from '@/global/serializer/response';
 
 @ArtinfoController('user', 'User')
 export class UserController {
@@ -10,12 +10,12 @@ export class UserController {
 
   @ArtinfoPost({ path: '/', summary: '회원가입' })
   async createUser(@Body() request: CreateUserRequest): Promise<ArtinfoResponse<string>> {
-    // try {
-    await this.userService.createUser(request.toEntity());
-    return ArtinfoResponse.OK();
-    // } catch (e) {
-    //   return ArtinfoResponse.ERROR_WITH('회원 가입에 실패하였습니다.');
-    // }
+    try {
+      await this.userService.createUser(request.toEntity());
+      return ArtinfoResponse.OK();
+    } catch (e) {
+      return ArtinfoResponse.ERROR_WITH('회원 가입에 실패하였습니다.');
+    }
   }
   //
   // @UseGuards(JwtAuthGuard)

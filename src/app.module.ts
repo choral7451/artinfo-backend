@@ -1,10 +1,14 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigurationModule } from './config/config.module';
 import { ApiModule } from './api/api.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { LoggerMiddleware } from '@/global/logger/logger.middleware';
+import { LoggerService } from '@/global/logger/logger.service';
 
 @Module({
   imports: [
+    ApiModule,
+    ConfigurationModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: '127.0.0.1',
@@ -16,8 +20,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       synchronize: true,
       logging: true,
     }),
-    ConfigurationModule,
-    ApiModule,
   ],
+  providers: [LoggerService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerMiddleware).forRoutes('*');
+  }
+}
