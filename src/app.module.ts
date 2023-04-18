@@ -2,12 +2,12 @@ import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigurationModule } from './config/config.module';
 import { ApiModule } from './api/api.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { LoggerMiddleware } from '@/global/logger/logger.middleware';
-import { LoggerService } from '@/global/logger/logger.service';
+import { LoggerModule } from '@/global/logger/logger.module';
 
 @Module({
   imports: [
     ApiModule,
+    LoggerModule,
     ConfigurationModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
@@ -18,13 +18,7 @@ import { LoggerService } from '@/global/logger/logger.service';
       database: 'artinfo',
       entities: [__dirname + '/api/**/*.entity.*'],
       synchronize: true,
-      logging: true,
     }),
   ],
-  providers: [LoggerService],
 })
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(LoggerMiddleware).forRoutes('*');
-  }
-}
+export class AppModule {}
