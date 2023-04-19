@@ -25,14 +25,10 @@ export class UserService {
   //   });
   // }
 
-  // async getUserByEmail(email: string): Promise<User | null> {
-  //   return this.prismaService.user.findUnique({
-  //     where: {
-  //       email: email,
-  //     },
-  //   });
-  // }
-  //
+  async getUserByEmail(email: string): Promise<User | null> {
+    return this.userRepository.getUserByEmail(email);
+  }
+
   private getHashedPassword = async (password: string): Promise<string> => {
     return await bcrypt.hash(password, 10);
   };
