@@ -11,7 +11,7 @@ export class IssueRepository {
     private issueRepository: Repository<Issue>,
   ) {}
 
-  async createIssue(issue: Issue): Promise<Issue> {
+  async create(issue: Issue): Promise<Issue> {
     return this.issueRepository.save(issue);
   }
 

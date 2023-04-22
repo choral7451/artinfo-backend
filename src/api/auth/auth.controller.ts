@@ -1,8 +1,12 @@
-import { ArtinfoController } from '@/global/decorator/rest-api';
+import { ArtinfoController, ArtinfoPost } from '@/global/decorator/rest-api';
+import { Body } from '@nestjs/common';
+import { LoginRequest } from '@/api/auth/dto/request/login.request';
+import { LoginResponse } from '@/api/auth/dto/response/login.response';
+import { AuthService } from '@/api/auth/auth.service';
 
 @ArtinfoController('auth', 'Auth')
 export class AuthController {
-  constructor() {}
+  // constructor(private readonly authService: AuthService) {}
   //
   // @ArtinfoPost({ path: '/login', summary: '로그인' })
   // async login(@Body() request: LoginRequest): Promise<LoginResponse> {

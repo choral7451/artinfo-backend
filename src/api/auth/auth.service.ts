@@ -1,12 +1,11 @@
 import { Injectable } from '@nestjs/common';
+import { UserService } from '@/api/user/user.service';
 
 @Injectable()
 export class AuthService {
-  constructor() {}
-
+  // constructor(private readonly userService: UserService) {}
   // async login({ email, password }: { email: string; password: string }): Promise<{ accessToken: string; refreshToken: string }> {
   //   const user = await this.userService.getUserByEmail(email);
-  //   if (!user) throw new Error('THE_USER_DOES_NOT_EXIST');
   //
   //   if (user.password) {
   //     const passwordMatching = await bcrypt.compare(password, user.password);
@@ -15,7 +14,6 @@ export class AuthService {
   //
   //   return { accessToken: this.getAccessToken(user), refreshToken: this.getRefreshToken() };
   // }
-  //
   // private getAccessToken(user: User): string {
   //   return this.jwtService.sign(
   //     { id: user.id, name: user.name, nickname: user.nickname, email: user.email }, //

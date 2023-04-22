@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
+import { IssueRepository } from '@/api/issue/issue.repository';
+import { Issue } from '@/api/issue/issue.entity';
 
 @Injectable()
 export class IssueService {
-  // constructor() {}
-  //
-  // async getIssueById(id: number): Promise<Issue & { user: User }> {
-  //   const issue = await this.prismaService.issue.findUnique({
-  //     where: { id: id },
-  //   });
+  constructor(private readonly issueRepository: IssueRepository) {}
+
+  // async getIssueById(id: number): Promise<Issue> {
+  //   const issue = await this.issueRepository.getIssueById(id);
   //
   //   if (!issue) throw new Error('ISSUE_DOES_NOT_EXIST');
   //
@@ -31,9 +31,9 @@ export class IssueService {
   //   return this.prismaService.issue.count();
   // }
   //
-  // async createIssue(fields: ICreateIssueFields): Promise<Issue> {
-  //   return this.prismaService.issue.create({ data: fields });
-  // }
+  async createIssue(issue: Issue): Promise<Issue> {
+    return this.issueRepository.create(issue);
+  }
   //
   // async deleteIssue(id: number): Promise<boolean> {
   //   const user = await this.prismaService.issue.delete({

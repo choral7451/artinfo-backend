@@ -6,7 +6,6 @@ import { IssueDetailResponse } from './dto/response/issueDetailResponse';
 import { IssuesResponse } from './dto/response/issues.response';
 import { JwtAuthGuard } from '@/api/auth/security/jwt-auth.guard';
 import { Signature } from '@/global/decorator/signature';
-import { ArtinfoResponse } from '@/global/serializer/response';
 
 @ArtinfoController('issue', 'Issue')
 export class IssueController {

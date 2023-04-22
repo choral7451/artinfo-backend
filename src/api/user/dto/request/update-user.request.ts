@@ -1,5 +1,4 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IUpdateUserFields } from '@/api/user/dto/fields/update-user.fields';
 
 export class UpdateUserRequest {
   @ApiProperty({ required: false, description: '이름', example: '임성준' })
@@ -13,13 +12,4 @@ export class UpdateUserRequest {
 
   @ApiProperty({ required: false, description: '유저 아이콘 이미지', example: 'www.sample.com' })
   iconImageUrl?: string;
-
-  getUpdateUserFields(): IUpdateUserFields {
-    return {
-      name: this.name,
-      nickname: this.nickname,
-      password: this.password,
-      iconImageUrl: this.iconImageUrl,
-    };
-  }
 }

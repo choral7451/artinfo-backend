@@ -10,11 +10,11 @@ export class UserRepository {
     private userRepository: Repository<User>,
   ) {}
 
-  async createUser(user: User): Promise<User> {
+  async create(user: User): Promise<User> {
     return this.userRepository.save(user);
   }
 
   async getUserByEmail(email: string): Promise<User | null> {
-    return await this.userRepository.findOneBy({ email });
+    return this.userRepository.findOneBy({ email });
   }
 }

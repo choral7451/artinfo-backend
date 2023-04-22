@@ -1,21 +1,18 @@
-import { Body } from '@nestjs/common';
+import { Body, UseFilters } from '@nestjs/common';
 import { ArtinfoController, ArtinfoPost } from '../../global/decorator/rest-api';
 import { UserService } from './user.service';
 import { CreateUserRequest } from './dto/request/create-user.request';
-import { ArtinfoResponse } from '@/global/serializer/response';
+import { HttpExceptionFilter } from '@/global/serializer/http-exception-filter';
 
 @ArtinfoController('user', 'User')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @ArtinfoPost({ path: '/', summary: '회원가입' })
-  async createUser(@Body() request: CreateUserRequest): Promise<ArtinfoResponse<string>> {
-    try {
-      await this.userService.createUser(request.toEntity());
-      return ArtinfoResponse.OK();
-    } catch (e) {
-      return ArtinfoResponse.ERROR_WITH('회원 가입에 실패하였습니다.');
-    }
+  @UseFilters(HttpExceptionFilter)
+  async createUser(@Body() request: CreateUserRequest) {
+    await this.userService.createUser(request.toEntity());
+    return 'ok';
   }
   //
   // @UseGuards(JwtAuthGuard)

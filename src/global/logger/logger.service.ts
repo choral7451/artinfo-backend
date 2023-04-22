@@ -25,6 +25,7 @@ export class LoggerService {
           level: 'http',
           db: process.env.MONGO_URL!,
           collection: 'http_logs',
+          expireAfterSeconds: 30 * 24 * 60 * 60,
           options: {
             useNewUrlParser: true,
             useUnifiedTopology: true,
@@ -34,7 +35,6 @@ export class LoggerService {
           level: 'error', // 로그 레벨 설정
           db: process.env.MONGO_URL!, // mongodb 연결 정보
           collection: 'error_logs', // 컬렉션 이름
-          decolorize: true, // 로그 색상 제거 여부
           expireAfterSeconds: 30 * 24 * 60 * 60,
           options: {
             useNewUrlParser: true,

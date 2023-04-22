@@ -14,7 +14,7 @@ export class UserService {
 
   async createUser(user: User): Promise<User> {
     user.password = await this.getHashedPassword(user.password);
-    return this.userRepository.createUser(user);
+    return this.userRepository.create(user);
   }
 
   // async getUserById(id: number): Promise<User | null> {
