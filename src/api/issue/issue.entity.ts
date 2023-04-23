@@ -16,7 +16,7 @@ export class Issue {
   @Column()
   contents: string;
 
-  @Column({ name: 'count_of_views' })
+  @Column({ name: 'count_of_views', default: 0 })
   countOfViews: number;
 
   @ManyToOne(() => User, user => user.issues)
@@ -27,4 +27,14 @@ export class Issue {
 
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
+
+  static create(title: string, type: IssueType, contents: string, user: User): Issue {
+    const issue = new Issue();
+    issue.title = title;
+    issue.type = type;
+    issue.contents = contents;
+    issue.user = user;
+
+    return issue;
+  }
 }

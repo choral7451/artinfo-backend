@@ -1,18 +1,20 @@
-import { Body, UseFilters } from '@nestjs/common';
-import { ArtinfoController, ArtinfoPost } from '../../global/decorator/rest-api';
+import { Body, UseGuards } from '@nestjs/common';
+import { ArtinfoController, ArtinfoGet, ArtinfoPost } from '../../global/decorator/rest-api';
 import { UserService } from './user.service';
 import { CreateUserRequest } from './dto/request/create-user.request';
-import { HttpExceptionFilter } from '@/global/serializer/http-exception-filter';
+import { JwtAuthGuard } from '@/api/auth/security/jwt-auth.guard';
+import { Signature } from '@/global/decorator/signature';
+import { UserResponse } from '@/api/user/dto/response/user.response';
+import { CreateResponse } from '@/global/dto/create.response';
 
 @ArtinfoController('user', 'User')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @ArtinfoPost({ path: '/', summary: '회원가입' })
-  @UseFilters(HttpExceptionFilter)
   async createUser(@Body() request: CreateUserRequest) {
-    await this.userService.createUser(request.toEntity());
-    return 'ok';
+    const userId = await this.userService.createUser(request.toEntity());
+    return CreateResponse.fromId(userId);
   }
   //
   // @UseGuards(JwtAuthGuard)
@@ -22,9 +24,9 @@ export class UserController {
   //   return UserResponse.fromUser(user);
   // }
   //
-  // @UseGuards(JwtAuthGuard)
-  // @ArtinfoGet({ path: '/me', summary: '내 정보 조회', auth: true })
-  // async getMe(@Signature() signature) {
-  //   return UserResponse.fromUser(signature);
-  // }
+  @UseGuards(JwtAuthGuard)
+  @ArtinfoGet({ path: '/me', summary: '내 정보 조회', auth: true })
+  async getMe(@Signature() signature) {
+    return UserResponse.fromUser(signature);
+  }
 }

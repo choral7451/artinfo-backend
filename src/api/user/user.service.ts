@@ -12,7 +12,7 @@ export class UserService {
   //   return return this.prismaService.user.update({ where: { id: id }, data: fields });
   // }
 
-  async createUser(user: User): Promise<User> {
+  async createUser(user: User): Promise<number> {
     user.password = await this.getHashedPassword(user.password);
     return this.userRepository.create(user);
   }
@@ -25,7 +25,7 @@ export class UserService {
   //   });
   // }
 
-  async getUserByEmail(email: string): Promise<User | null> {
+  async getUserByEmail(email: string): Promise<User> {
     return this.userRepository.getUserByEmail(email);
   }
 
