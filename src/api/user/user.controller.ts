@@ -11,7 +11,7 @@ import { CreateResponse } from '@/global/dto/create.response';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @ArtinfoPost({ path: '/', summary: '회원가입' })
+  @ArtinfoPost(CreateResponse, { path: '/', summary: '회원가입' })
   async createUser(@Body() request: CreateUserRequest) {
     const userId = await this.userService.createUser(request.toEntity());
     return CreateResponse.fromId(userId);
@@ -25,7 +25,7 @@ export class UserController {
   // }
   //
   @UseGuards(JwtAuthGuard)
-  @ArtinfoGet({ path: '/me', summary: '내 정보 조회', auth: true })
+  @ArtinfoGet(UserResponse, { path: '/me', summary: '내 정보 조회', auth: true })
   async getMe(@Signature() signature) {
     return UserResponse.fromUser(signature);
   }

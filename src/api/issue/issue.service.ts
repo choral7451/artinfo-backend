@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { IssueRepository } from '@/api/issue/issue.repository';
 import { Issue } from '@/api/issue/issue.entity';
+import { error } from 'winston';
 
 @Injectable()
 export class IssueService {
@@ -22,7 +23,10 @@ export class IssueService {
     return this.issueRepository.create(issue);
   }
 
-  async deleteIssue(id: number): Promise<boolean> {
-    return this.issueRepository.deleteById(id);
+  async deleteIssue(issueId: number, userId: number): Promise<boolean> {
+    const issue = await this.getIssueById(issueId);
+    if (issue.user.id !== userId) throw new HttpException('해당 접근에 권한이 필요합니다.', 400);
+
+    return this.issueRepository.deleteById(issueId);
   }
 }

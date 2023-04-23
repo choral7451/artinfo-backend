@@ -4,7 +4,7 @@ export class LoginResponse {
   @ApiProperty({ required: true, description: 'Access 토큰' })
   private accessToken!: string;
 
-  @ApiProperty({ required: false, description: 'Refresh 토큰' })
+  @ApiProperty({ required: true, description: 'Refresh 토큰' })
   private refreshToken!: string;
 
   static fromTokens({ accessToken, refreshToken }: { accessToken: string; refreshToken: string }): LoginResponse {

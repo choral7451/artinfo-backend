@@ -16,26 +16,26 @@ export class IssueController {
   ) {}
 
   @UseGuards(JwtAuthGuard)
-  @ArtinfoPost({ path: '/', summary: '이슈 게시글 작성', auth: true })
+  @ArtinfoPost(CreateResponse, { path: '/', summary: '이슈 게시글 작성', auth: true })
   async createIssue(@Body() request: CreateIssueRequest, @Signature() signature) {
     const issueId = await this.issueService.createIssue(request.setUser(signature).toEntity());
     return CreateResponse.fromId(issueId);
   }
 
   @UseGuards(JwtAuthGuard)
-  @ArtinfoDelete({ path: '/:id([0-9])', summary: '이슈 게시글 삭제', auth: true })
+  @ArtinfoDelete(SuccessResponse, { path: '/:id([0-9])', summary: '이슈 게시글 삭제', auth: true })
   async deleteIssue(@Param('id') issueId: number, @Signature() signature) {
-    const result = await this.issueService.deleteIssue(issueId);
+    const result = await this.issueService.deleteIssue(issueId, signature.id);
     return SuccessResponse.fromResult(result);
   }
 
-  @ArtinfoGet({ path: '/:id([0-9])', summary: '이슈 게시글 조회' })
+  @ArtinfoGet(IssueResponse, { path: '/:id([0-9])', summary: '이슈 게시글 조회' })
   async getIssue(@Param('id') issueId: number) {
     const issue = await this.issueService.getIssueById(issueId);
     return IssueResponse.fromIssue(issue);
   }
 
-  @ArtinfoGet({ path: '/issues', summary: '이슈 게시글 목록 조회' })
+  @ArtinfoGet(IssuesResponse, { path: '/issues', summary: '이슈 게시글 목록 조회' })
   async getIssues() {
     const issue = await this.issueService.getIssues();
     const countOfTotal = await this.issueService.countIssues();
