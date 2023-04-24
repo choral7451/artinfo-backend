@@ -7,10 +7,10 @@ import { User } from '@/api/user/user.entity';
 export class UserService {
   constructor(private readonly userRepository: UserRepository) {}
 
-  // async updateUser(id: number, fields: IUpdateUserFields): Promise<User> {
-  //   if (fields.password) fields.password = await this.getHashedPassword(fields.password);
-  //   return return this.prismaService.user.update({ where: { id: id }, data: fields });
-  // }
+  async updateUser(id: number, user: User): Promise<boolean> {
+    if (user.password) user.password = await this.getHashedPassword(user.password);
+    return this.userRepository.update(id, user);
+  }
 
   async createUser(user: User): Promise<number> {
     user.password = await this.getHashedPassword(user.password);
