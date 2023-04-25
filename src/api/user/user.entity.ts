@@ -39,4 +39,14 @@ export class User {
 
     return user;
   }
+
+  static update({ name, nickname, password, iconImageUrl }: { name?: string; nickname?: string; password?: string; iconImageUrl?: string }) {
+    const user = new User();
+    if (name) user.name = name;
+    if (nickname) user.nickname = nickname;
+    if (password) user.password = password;
+    if (iconImageUrl) user.iconImageUrl = iconImageUrl;
+
+    return user;
+  }
 }

@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { User } from '@/api/user/user.entity';
 
 export class UpdateUserRequest {
   @ApiProperty({ required: false, description: '이름', example: '임성준' })
@@ -12,4 +13,8 @@ export class UpdateUserRequest {
 
   @ApiProperty({ required: false, description: '유저 아이콘 이미지', example: 'www.sample.com' })
   iconImageUrl?: string;
+
+  toEntity(): User {
+    return User.update({ name: this.name, nickname: this.nickname, password: this.password, iconImageUrl: this.iconImageUrl });
+  }
 }

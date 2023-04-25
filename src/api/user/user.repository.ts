@@ -26,4 +26,11 @@ export class UserRepository {
 
     return user;
   }
+
+  async getUserById(id: number): Promise<User> {
+    const user = await this.userRepository.findOneBy({ id });
+    if (!user) throw new HttpException('해당 회원이 존재하지 않습니다.', 400);
+
+    return user;
+  }
 }

@@ -17,13 +17,9 @@ export class UserService {
     return this.userRepository.create(user);
   }
 
-  // async getUserById(id: number): Promise<User | null> {
-  //   return this.prismaService.user.findUnique({
-  //     where: {
-  //       id: id,
-  //     },
-  //   });
-  // }
+  async getUserById(id: number): Promise<User> {
+    return this.userRepository.getUserById(id);
+  }
 
   async getUserByEmail(email: string): Promise<User> {
     return this.userRepository.getUserByEmail(email);

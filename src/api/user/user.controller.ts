@@ -4,7 +4,9 @@ import { CreateUserRequest } from './dto/request/create-user.request';
 import { Signature } from '@/global/decorator/signature';
 import { UserResponse } from '@/api/user/dto/response/user.response';
 import { CreateResponse } from '@/global/dto/create.response';
-import { ArtinfoController, ArtinfoGet, ArtinfoPost } from '@/global/decorator/rest-api';
+import { ArtinfoController, ArtinfoGet, ArtinfoPatch, ArtinfoPost } from '@/global/decorator/rest-api';
+import { UpdateUserRequest } from '@/api/user/dto/request/update-user.request';
+import { SuccessResponse } from '@/global/dto/success.response';
 
 @ArtinfoController('user', 'User')
 export class UserController {
@@ -16,14 +18,15 @@ export class UserController {
     return CreateResponse.fromId(userId);
   }
 
-  // @ArtinfoPatch(UserResponse, { path: '/', summary: '내 정보 수정', auth: true })
-  // async updateMe(@Body() request: UpdateUserRequest, @Signature() signature): Promise<UserResponse> {
-  //   const user = await this.userService.updateUser(signature.id, request.getUpdateUserFields());
-  //   return UserResponse.fromUser(user);
-  // }
+  @ArtinfoPatch(SuccessResponse, { path: '/', summary: '내 정보 수정', auth: true })
+  async updateMe(@Body() request: UpdateUserRequest, @Signature() signature): Promise<SuccessResponse> {
+    const result = await this.userService.updateUser(signature.id, request.toEntity());
+    return SuccessResponse.fromResult(result);
+  }
 
   @ArtinfoGet(UserResponse, { path: '/me', summary: '내 정보 조회', auth: true })
   async getMe(@Signature() signature) {
-    return UserResponse.fromUser(signature);
+    const user = await this.userService.getUserById(signature.id);
+    return UserResponse.fromUser(user);
   }
 }
