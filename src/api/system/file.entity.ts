@@ -16,7 +16,7 @@ export class File {
   target: FileTargetType;
 
   @Column({ name: 'target_id' })
-  targetId: string;
+  targetId: number;
 
   @Column({ name: 'mime_type' })
   mimeType: string;
@@ -24,7 +24,7 @@ export class File {
   @Column()
   size: number;
 
-  @Column()
+  @Column({ default: FileStatus.UNUSED })
   status: FileStatus;
 
   @CreateDateColumn({ name: 'created_at' })
@@ -32,4 +32,16 @@ export class File {
 
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
+
+  static create(fileName: string, url: string, target: FileTargetType, targetId: number, mimeType: string, size: number): File {
+    const file = new File();
+    file.fileName = fileName;
+    file.url = url;
+    file.target = target;
+    file.targetId = targetId;
+    file.mimeType = mimeType;
+    file.size = size;
+
+    return file;
+  }
 }
