@@ -5,7 +5,6 @@ import { ArtinfoController, ArtinfoPost } from '../../global/decorator/rest-api'
 import { SystemService } from './system.service';
 import { FileUploadRequest } from './dto/request/file-upload.request';
 import { MulterFile } from './dto/fields/multer-file.fields';
-import { JwtAuthGuard } from '../auth/security/jwt-auth.guard';
 import { Signature } from '@/global/decorator/signature';
 import { FileUploadResponse } from '@/api/system/dto/response/file-upload.response';
 
@@ -43,6 +42,6 @@ export class SystemController {
   @ArtinfoPost(FileUploadResponse, { path: '/upload', summary: '파일 업로드', auth: true })
   async uploadFile(@Body() request: FileUploadRequest, @UploadedFile() file: MulterFile, @Signature() signature): Promise<any> {
     const url = await this.systemService.uploadFile(request.setTargetId(signature.id).setFile(file));
-    return { url: url };
+    return FileUploadResponse.fromUrl(url);
   }
 }
