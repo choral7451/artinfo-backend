@@ -1,7 +1,7 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { IssueRepository } from '@/api/issue/issue.repository';
 import { Issue } from '@/api/issue/issue.entity';
-import { error } from 'winston';
+import { IssueFilterType } from '@/common/enum';
 
 @Injectable()
 export class IssueService {
@@ -11,8 +11,8 @@ export class IssueService {
     return this.issueRepository.getIssueById(id);
   }
 
-  async getIssues(): Promise<Issue[]> {
-    return this.issueRepository.getIssues();
+  async getIssuesByType(type: IssueFilterType): Promise<Issue[]> {
+    return this.issueRepository.getIssuesByType(type);
   }
 
   async countIssues(): Promise<number> {

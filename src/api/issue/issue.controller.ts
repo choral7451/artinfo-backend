@@ -1,4 +1,4 @@
-import { Body, Param } from '@nestjs/common';
+import { Body, Param, Query } from '@nestjs/common';
 import { ArtinfoController, ArtinfoDelete, ArtinfoGet, ArtinfoPost } from '../../global/decorator/rest-api';
 import { IssueService } from './issue.service';
 import { CreateIssueRequest } from './dto/request/create-issue.request';
@@ -7,6 +7,7 @@ import { Signature } from '@/global/decorator/signature';
 import { IssueResponse } from '@/api/issue/dto/response/issue.response';
 import { SuccessResponse } from '@/global/dto/success.response';
 import { CreateResponse } from '@/global/dto/create.response';
+import { IssuesRequest } from '@/api/issue/dto/request/issues.request';
 
 @ArtinfoController('issue', 'Issue')
 export class IssueController {
@@ -33,8 +34,8 @@ export class IssueController {
   }
 
   @ArtinfoGet(IssuesResponse, { path: '/issues', summary: '이슈 게시글 목록 조회' })
-  async getIssues() {
-    const issue = await this.issueService.getIssues();
+  async getIssues(@Query() request: IssuesRequest) {
+    const issue = await this.issueService.getIssuesByType(request.type);
     const countOfTotal = await this.issueService.countIssues();
     return IssuesResponse.fromIssues(issue, countOfTotal);
   }

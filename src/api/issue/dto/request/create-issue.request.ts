@@ -1,5 +1,4 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ICreateIssueFields } from '../fields/create-issue.fields';
 import { IssueType } from '@/common/enum';
 import { User } from '@/api/user/user.entity';
 import { Issue } from '@/api/issue/issue.entity';
@@ -7,7 +6,7 @@ import { Issue } from '@/api/issue/issue.entity';
 export class CreateIssueRequest {
   user: User;
 
-  @ApiProperty({ required: true, description: '이슈 게시글 타입', example: IssueType.ISSUE })
+  @ApiProperty({ enum: IssueType, enumName: 'IssueType', required: true, description: '이슈 게시글 타입', example: IssueType.ISSUE })
   type!: IssueType;
 
   @ApiProperty({ required: true, description: '이슈 게시글 제목', example: '이슈가 있습니다.' })
