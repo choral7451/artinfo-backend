@@ -4,6 +4,7 @@ import { setSwagger } from './global/swagger/swagger';
 import { ValidationPipe } from '@nestjs/common';
 import { HttpExceptionFilter } from '@/global/serializer/http-exception-filter';
 import { TransformResponseInterceptor } from '@/global/serializer/response-interceptor';
+import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -12,6 +13,7 @@ async function bootstrap() {
       transform: true,
     }),
   );
+  app.use(cookieParser());
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalInterceptors(new TransformResponseInterceptor());
   app.enableCors();

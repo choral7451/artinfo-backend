@@ -19,6 +19,12 @@ export class AuthService {
     return { accessToken: this.getAccessToken(user), refreshToken: this.getRefreshToken() };
   }
 
+  async restoreTokens(userId: number): Promise<{ accessToken: string; refreshToken: string }> {
+    const user = await this.userService.getUserById(userId);
+
+    return { accessToken: this.getAccessToken(user), refreshToken: this.getRefreshToken() };
+  }
+
   private getAccessToken(user: User): string {
     return this.jwtService.sign(
       { id: user.id, name: user.name, nickname: user.nickname, email: user.email }, //

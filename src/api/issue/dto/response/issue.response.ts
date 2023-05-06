@@ -15,6 +15,9 @@ export class IssueResponse {
   @ApiProperty({ required: true, description: '이슈 게시글 제목', example: '이슈가 있습니다.' })
   title!: string;
 
+  @ApiProperty({ required: true, description: '이슈 게시글 내용', example: '이슈가 있습니다.' })
+  contents?: string;
+
   @ApiProperty({ required: true, description: '게시글 조회수', example: 3 })
   countOfViews!: number;
 
@@ -27,6 +30,7 @@ export class IssueResponse {
     response.type = issue.type;
     response.authorUserNickname = issue.user.nickname;
     response.title = issue.title;
+    response.contents = issue.contents;
     response.countOfViews = issue.countOfViews;
     response.createdAt = issue.createdAt;
 
