@@ -18,24 +18,37 @@ export class IssueRepository {
 
   async getIssueById(id: number): Promise<Issue> {
     const issue = await this.issueRepository.findOne({ where: { id }, relations: ['user'] });
-    if (!issue) throw new HttpException('해당 게시글이 존재하지 않습니다.', 400);
+    if (!issue) {
+      throw new HttpException('해당 게시글이 존재하지 않습니다.', 400);
+    }
 
     return issue;
   }
 
-  async getIssuesByType(type: IssueFilterType): Promise<Issue[]> {
+  async getIssuesByType(type: IssueFilterType, countOfItems: number, lastItemId?: number, keyword?: string): Promise<Issue[]> {
     let where = {};
 
     if (type !== IssueFilterType.ALL) {
       where = { type };
     }
 
-    return this.issueRepository
-      .createQueryBuilder('issue') //
+    let queryBuilder = this.issueRepository
+      .createQueryBuilder('issue')
       .where(where)
+      .limit(countOfItems)
       .leftJoinAndSelect('issue.user', 'user')
-      .orderBy('issue.createdAt', 'DESC')
-      .getMany();
+      .orderBy('issue.id', 'DESC');
+
+    if (lastItemId !== undefined) {
+      queryBuilder.andWhere('issue.id < :lastItemId', { lastItemId });
+    }
+
+    if (keyword !== undefined) {
+      const keywordCondition = `(issue.title LIKE :keyword OR user.nickname LIKE :keyword)`;
+      queryBuilder.andWhere(keywordCondition, { keyword: `%${keyword}%` });
+    }
+
+    return queryBuilder.getMany();
   }
 
   async count(): Promise<number> {

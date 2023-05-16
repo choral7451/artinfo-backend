@@ -1,6 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany } from 'typeorm';
 import { IssueType } from '@/common/enum';
 import { User } from '@/api/user/user.entity';
+import { Comment } from '@/api/comment/comment.entity';
 
 @Entity({ name: 'issues' })
 export class Issue {
@@ -13,7 +14,7 @@ export class Issue {
   @Column()
   type: IssueType;
 
-  @Column()
+  @Column({ type: 'text' })
   contents: string;
 
   @Column({ name: 'count_of_views', default: 0 })
@@ -21,6 +22,9 @@ export class Issue {
 
   @ManyToOne(() => User, user => user.issues)
   user: User;
+
+  @OneToMany(() => Comment, comment => comment.issue)
+  comments: Comment[];
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

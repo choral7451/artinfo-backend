@@ -19,14 +19,11 @@ export class AuthController {
   @ArtinfoPost(TokensResponse, { path: '/tokens/refresh', summary: 'token 갱신' })
   async refreshTokens(@Req() request): Promise<TokensResponse> {
     try {
-      const accessToken = request.headers.authorization && request.headers.authorization.replace('Bearer ', '');
       const refreshToken = request.cookies['refreshToken'];
-
-      this.jwtService.verify(refreshToken, { secret: process.env.JWT_TOKEN_KEY });
-      const sign = jwt.decode(accessToken);
+      const { id } = this.jwtService.verify(refreshToken, { secret: process.env.JWT_TOKEN_KEY });
 
       let tokens;
-      if (sign) tokens = await this.authService.restoreTokens(sign['id']);
+      if (refreshToken) tokens = await this.authService.restoreTokens(id);
 
       return TokensResponse.fromTokens({ accessToken: tokens.accessToken, refreshToken: tokens.refreshToken });
     } catch (e) {

@@ -28,7 +28,7 @@ export class AuthService {
   private getAccessToken(user: User): string {
     return this.jwtService.sign(
       { id: user.id, name: user.name, nickname: user.nickname, email: user.email }, //
-      { privateKey: process.env.JWT_TOKEN_KEY, expiresIn: '20m' },
+      { privateKey: process.env.JWT_TOKEN_KEY, expiresIn: '10s' },
     );
   }
 

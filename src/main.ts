@@ -16,7 +16,7 @@ async function bootstrap() {
   app.use(cookieParser());
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalInterceptors(new TransformResponseInterceptor());
-  app.enableCors();
+  app.enableCors({ origin: true, credentials: true });
   setSwagger(app);
   await app.listen(3001);
 }

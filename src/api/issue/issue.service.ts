@@ -11,8 +11,8 @@ export class IssueService {
     return this.issueRepository.getIssueById(id);
   }
 
-  async getIssuesByType(type: IssueFilterType): Promise<Issue[]> {
-    return this.issueRepository.getIssuesByType(type);
+  async getIssuesByType(type: IssueFilterType, countOfItems: number, lastItemId?: number, keyword?: string): Promise<Issue[]> {
+    return this.issueRepository.getIssuesByType(type, countOfItems, lastItemId, keyword);
   }
 
   async countIssues(): Promise<number> {
